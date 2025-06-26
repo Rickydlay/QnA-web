@@ -18,6 +18,10 @@ mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('Connected to MongoDB Atlas'))
   .catch(err => console.error('MongoDB connection error:', err));
 
+app.get('/', (req, res) => {
+  res.send('✅ QnA Web Backend is live and ready!');
+});
+
 app.use('/api/questions', questionRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/answers', require('./routes/answers'));
