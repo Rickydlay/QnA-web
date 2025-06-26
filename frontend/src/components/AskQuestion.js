@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import api from './api'; // Update import
+import api from 'api'; // Update import
 import { useNavigate } from 'react-router-dom';
 
 const AskQuestion = () => {

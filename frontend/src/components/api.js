@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://mywebsite-q8v7.onrender.com',
+  baseURL: process.env.REACT_APP_API_URL, // e.g., https://qna-web.onrender.com/api
 });
 
 api.interceptors.request.use(

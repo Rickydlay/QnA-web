@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from 'api';
 
 export const useAuth = () => {
   const [user, setUser] = useState(null);
@@ -9,7 +9,7 @@ export const useAuth = () => {
       const token = localStorage.getItem('token');
       if (token) {
         try {
-          const res = await axios.get('http://localhost:5000/api/profile', {
+          const res = await api.get('/api/profile', {
             headers: { Authorization: `Bearer ${token}` }
           });
           setUser(res.data.user);
@@ -28,7 +28,7 @@ export const useAuth = () => {
     const token = localStorage.getItem('token');
     if (token) {
       try {
-        const res = await axios.get('http://localhost:5000/api/profile', {
+        const res = await api.get('/api/profile', {
           headers: { Authorization: `Bearer ${token}` }
         });
         setUser(res.data.user);

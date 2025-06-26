@@ -4,17 +4,21 @@ import { Link } from 'react-router-dom';
 import Upvote from './Upvote';
 import Flag from './Flag';
 
+const BACKEND_BASE_URL = process.env.REACT_APP_API_URL?.replace('/api', '');
+
 const QuestionList = () => {
   const [questions, setQuestions] = useState([]);
 
   useEffect(() => {
     api.get('/api/questions')
       .then(res => setQuestions(res.data))
-      .catch(err => console.error(err));
+      .catch(err => console.error('Error fetching questions:', err));
   }, []);
 
   const handleUpdate = (updatedQuestion) => {
-    setQuestions(questions.map(q => q._id === updatedQuestion._id ? updatedQuestion : q));
+    setQuestions(questions.map(q =>
+      q._id === updatedQuestion._id ? updatedQuestion : q
+    ));
   };
 
   const getUsername = (user) => {
@@ -23,7 +27,9 @@ const QuestionList = () => {
   };
 
   const getAvatar = (user) => {
-    return user?.avatar ? `http://localhost:5000${user.avatar}` : 'http://localhost:5000/uploads/user.png';
+    return user?.avatar
+      ? `${BACKEND_BASE_URL}${user.avatar}`
+      : `${BACKEND_BASE_URL}/uploads/user.png`;
   };
 
   return (
@@ -41,7 +47,10 @@ const QuestionList = () => {
                   className="rounded-circle me-2"
                   width="40"
                   height="40"
-                  onError={(e) => (e.target.src = 'http://localhost:5000/uploads/user.png')}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = `${BACKEND_BASE_URL}/uploads/user.png`;
+                  }}
                 />
                 <span className="fw-bold">{getUsername(question.userId)}</span>
               </div>
@@ -49,7 +58,9 @@ const QuestionList = () => {
                 <Link to={`/questions/${question._id}`} className="text-decoration-none">
                   <h5 className="card-title fw-bold mb-2" style={{ color: '#000' }}>{question.title}</h5>
                 </Link>
-                <p className="card-text text-muted mb-2">{question.body.substring(0, 100)}...</p>
+                <p className="card-text text-muted mb-2">
+                  {question.body.substring(0, 100)}...
+                </p>
                 <div className="mb-2">
                   {question.tags.map(tag => (
                     <span key={tag} className="badge bg-secondary me-1">{tag}</span>

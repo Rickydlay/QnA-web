@@ -1,5 +1,5 @@
 import React from 'react';
-import api from 'api'; // Add this line
+import api from 'api';
 
 const AvatarUploader = ({ profile, setProfile, setMessage }) => {
   const handleAvatarChange = async (e) => {
@@ -10,9 +10,8 @@ const AvatarUploader = ({ profile, setProfile, setMessage }) => {
     formData.append('avatar', file);
 
     try {
-      const token = localStorage.getItem('token');
       const res = await api.put('/api/profile/avatar', formData, {
-        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data' },
+        headers: { 'Content-Type': 'multipart/form-data' },
       });
       setProfile(prev => ({ ...prev, user: { ...prev.user, avatar: res.data.avatar } }));
       setMessage('Avatar updated successfully!');
@@ -26,7 +25,7 @@ const AvatarUploader = ({ profile, setProfile, setMessage }) => {
     document.getElementById('avatarUpload').click();
   };
 
-  const avatarUrl = profile.user.avatar ? `http://localhost:5000${profile.user.avatar}` : 'http://localhost:5000/uploads/user.png';
+  const avatarUrl = profile.user.avatar ? `${process.env.REACT_APP_API_URL}${profile.user.avatar}` : `${process.env.REACT_APP_API_URL}/uploads/user.png`;
 
   return (
     <div className="position-relative mb-3">
@@ -38,7 +37,7 @@ const AvatarUploader = ({ profile, setProfile, setMessage }) => {
         height="40"
         onClick={triggerFileInput}
         style={{ cursor: 'pointer' }}
-        onError={(e) => (e.target.src = 'http://localhost:5000/uploads/user.png')}
+        onError={(e) => (e.target.src = `${process.env.REACT_APP_API_URL}/uploads/user.png`)}
       />
       <input
         id="avatarUpload"

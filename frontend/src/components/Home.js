@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import api from './api'; // Update import
+import api from 'api'; // Update import
 import QuestionsCard from './QuestionsCard';
 
 const Home = () => {
