@@ -12,35 +12,32 @@ const profileRoutes = require('./routes/profile');
 const app = express();
 const port = process.env.PORT || 5000;
 
-// ✅ CORS config to allow frontend on render
+// ✅ CORS setup for Render frontends
 const corsOptions = {
-  origin: 'https://qna-web-frontend.onrender.com', // your deployed frontend URL
-  credentials: true, // optional, only needed if using cookies or Authorization headers
+  origin: ['https://my-qna-frontend.onrender.com', 'https://qna-web-frontend.onrender.com'],
+  credentials: true,
 };
-
 app.use(cors(corsOptions));
-app.use(express.json());
 
-// Serve uploaded files
+app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// MongoDB connection
+// ✅ MongoDB
 mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log('Connected to MongoDB Atlas'))
-  .catch(err => console.error('MongoDB connection error:', err));
+  .then(() => console.log('✅ Connected to MongoDB Atlas'))
+  .catch((err) => console.error('❌ MongoDB connection error:', err));
 
-// Test route
+// ✅ API routes
 app.get('/', (req, res) => {
   res.send('✅ QnA Web Backend is live and ready!');
 });
 
-// API routes
 app.use('/api/questions', questionRoutes);
-app.use('/api/auth', authRoutes);
 app.use('/api/answers', answerRoutes);
+app.use('/api/auth', authRoutes);
 app.use('/api/profile', profileRoutes);
 
-// Start server
+// ✅ Start server
 app.listen(port, '0.0.0.0', () => {
-  console.log(`Server running on port ${port}`);
+  console.log(`🚀 Server running on port ${port}`);
 });
