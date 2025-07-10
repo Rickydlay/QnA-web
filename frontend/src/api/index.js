@@ -1,11 +1,12 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://qna-web-backend.onrender.com', // Replace with your backend URL (e.g., your server address)
-  timeout: 5000, // Optional: set a timeout for requests
+  baseURL: 'https://qna-web-backend.onrender.com', // Your backend Render URL
+  timeout: 5000,
+  withCredentials: true, // Allows cookies or secure headers if needed
 });
 
-// Optional: Add a request interceptor to include the token in all requests
+// Add Authorization header automatically if token is stored
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
