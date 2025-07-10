@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:5000', // Replace with your backend URL (e.g., your server address)
+  baseURL: 'https://qna-web-backend.onrender.com', // Replace with your backend URL (e.g., your server address)
   timeout: 5000, // Optional: set a timeout for requests
 });
 
